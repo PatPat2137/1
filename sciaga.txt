@@ -1,0 +1,89 @@
+Teoria:
+    git - najpopularniejszy System Kontroli Wersji
+    System Kontroli Wersji - zarządza zmianami w projekcie, pozwala przeglądać historię tych zmian
+    oraz przywrócić projekt do dowolnego momentu tej historii
+---------------------------------------------------------------------------------------------------------
+git init  - inicjuje repozytorium w bieżącym katalogu
+
+Wysyłanie zmian na stage i do repozytorium lokalnego 
+    add . (. = wszystko) - dodaje wszystkie zmiany w katalogu roboczym na stage
+    commit -m "Komentarz" - dodaje  z komentarzem wszystko ze stage do repozytorium
+
+Usuwanie zmian przed wysłaniem do repozytorium:
+    clean -idf  -(interaktywny tryb, katalogi, wymuś wykonanie) - usuwa  nieśledzone(U) pliki i katalogi z katalogu roboczego
+    checkout -- nazwapliku - cofa zmiany w danym pliku(M) w katalogu roboczym 
+    restore --staged nazwapliku - cofa plik ze stage
+
+Usuwanie zmian po wysłaniu do repozytorium
+    revert nazwacommitu - usuwa zmiany wprowadzone w danym commicie
+    reset - soft/mixed/hard #commitu - usuwa całą wszystke zmiany do podanego commitu
+
+Przeglądanie histori:
+    shortlog - histora commitów z podziałem na użytkowników
+    log -  historia commitów
+    flagi:
+        --oneline - tylko tytuł commitu (pierwsza linia komentarza)  i ich #
+        --author="name" - commity wybranej osoby
+        --grep="tekst" - commity zawierające słowo tekst w treści
+        -3 - określa ile najnowszych commitów wyświetlić
+        -- nazwa.pliku - commity wprowadzające zmiany w konkretnym pliku
+        --patch -- katalog\ - zmiany w danym katalogu, 
+        --summary - skrócony opis zmian
+        --stat - statystycznie zmiany w plikach w katalogu
+        -- format - pozwala na określenie wyglądu historii zmian (do przetestowania)
+
+Stosy ze stage: Przydatne gdy testujemy wersję stabilną i znajdujemy błędy. 
+Wtedy zamiast wysyłać commit na głównym branchu odkładamy te zmiany "na później"
+
+    stash push (push jest domyślne)- cofnięcie zmian w katalogu roboczym i odłożenie ich na stos
+    np w celu przywrócenia na innym branchu
+    stash pop - przywrócenie w katalogu roboczym ostatniej zmiany odłożonej na stos 
+    stash list - list zmian na stosie
+    stash clear - czyści stos bez zmian w katalogu roboczym
+    stash drop nrelementustosu - usuwa konkretną zmianę ze stosu
+    -m dodawanie do stosu z komentarzem 
+    -u - przydatne gdy chcemy dodać do stosu plik który nie był śledzony (nowy plik)
+    stash branch nazwa - stworzenie nowego brancha ze zmianami ze stosu w katalogu roboczym
+----------------------------------------------------------------------------------------------
+Gałęzie produkcyjne:
+    snapshot - wpis o commicie z hashem
+    branch - wskaznik na snapshot
+
+    branch - lista dostępnych branchy
+    -D - nazwabrancha - usuwa niepotrzebną gałąź
+
+    merge nazwabruncha (będąc na masterze) - połączenie gałęzi nazwabruncha z głównym repozytorium razem z historią commitów
+    
+    checkout nazwacommitu - ustawia wskaźnik HEAD na dany commit, jest to wersja "tymczasowa",
+    którą można zapisać na oddzielnym branchu 
+
+    Przykładowy podział:
+        master - wersja stabilna,
+            
+            dev - wersja testowa 
+                feature - testowanie nowych funkcji, jeden branch na funkcję 
+                user - dla konkretnych użytkowników,
+                test - bugfix
+
+Zdalne repozytorium:
+    remote add origin link_z_github - nadanie aliasu origin linkowi do repo z github
+    push -u origin master -  Dzięki -u by wysłać repo z mastera na origin wystarczy od teraz git push
+    fetch - pobieranie zmian ze zdalnego repozytorium
+    pull -  wykonanie zmian pobranych fetchem
+    merge origin/master - synchronizacja zdalnego repozytorium z lokalnym w razie potrzeby
+
+
+do edycji:
+    Fork - kopia głównego repozytorium. Gdy nie możemy commitować w głównym repo
+    clone user@linkdoforka user - tworzymy fork w głównym repo na gitHub - podajemy link do niego
+    -  tworzymy nowy branch -wprowadzamy zmiany - push do forka - pullrequest w gitHub
+    
+    rm - nazwapliku - usuwa plik z repozytorium, informacja o tym trafia jako commit do zatwierdzenia
+    rv - ???
+    rebase-interactive master (będąc na innej gałęzi) - tworzy 1 commit ze wszystkich zmian na gałęzi.
+    test testd
+    tagi - pozwalają łatwo znaleźć commit
+
+    
+
+        
